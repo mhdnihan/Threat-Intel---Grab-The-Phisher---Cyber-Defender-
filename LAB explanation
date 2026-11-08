@@ -1,0 +1,97 @@
+Grab The Phisher – Phishing Website Investigation
+
+1. Overview
+
+This repository documents my investigation of the Phisher Grab scenario from CyberDefenders.
+
+The objective was to examine the provided website files, analyze the PHP source code, identify malicious functionality, and understand how the phishing website collects sensitive user information.
+
+2. Investigation Scope
+
+The provided evidence included:
+
+* Original website PHP file
+* Original website index.html
+* Fake website PHP file
+* Fake website index.html
+* Log.txt
+
+I focused primarily on analyzing the fake website’s PHP implementation.
+
+3. Key Findings
+
+A. IP Geolocation Tracking
+
+The fake website uses the Sypex Geo API to identify the approximate geographical location of visitors.
+
+Relevant PHP functions:
+
+* $_SERVER['REMOTE_ADDR'] – Retrieves the visitor’s IP address.
+* file_get_contents() – Retrieves data from the external geolocation API.
+* json_decode() – Decodes the API response.
+* Object property access – Extracts country and city information.
+
+Security observation: The website collects visitor IP-based geolocation information, potentially allowing the operator to profile visitors.
+
+B. PHP Data Retrieval
+
+The PHP file_get_contents() function is used to retrieve information from an external URL.
+
+In this scenario, it is used to communicate with the Sypex Geo API.
+
+This demonstrates how PHP can interact with external services.
+
+C. Cryptocurrency Wallet Recovery Phrase Collection
+
+During source-code analysis, I identified functionality associated with collecting cryptocurrency wallet recovery phrases.
+
+A recovery phrase is highly sensitive information that can potentially provide complete control over a cryptocurrency wallet.
+
+Security impact:
+
+* Cryptocurrency wallet compromise
+* Unauthorized access to digital assets
+* Financial theft
+* Potential irreversible loss of funds
+
+D. Phishing Infrastructure
+
+The presence of separate original and fake website files allowed me to compare their implementations and investigate how the fraudulent website attempts to impersonate a legitimate service.
+
+4. Attack Flow
+
+1. Victim visits the fake website.
+2. Website identifies the visitor’s IP address.
+3. PHP queries the Sypex Geo API.
+4. Visitor’s approximate geographical information is extracted.
+5. Fake website requests sensitive wallet recovery information.
+6. Submitted information may be processed or transmitted by the PHP backend.
+
+Note: The exact storage and exfiltration mechanism requires confirmation through the relevant PHP statements.
+
+5. Tools and Technologies
+
+* PHP source-code analysis
+* HTML analysis
+* CyberDefenders lab environment
+* Sypex Geo API
+* Static analysis
+
+6. Security Lessons Learned
+
+* Never enter cryptocurrency recovery phrases into untrusted websites.
+* Analyze suspicious PHP scripts before executing them.
+* Investigate external API requests.
+* Identify sensitive information collection mechanisms.
+* Examine how submitted data is stored and transmitted.
+* Compare legitimate and fraudulent website implementations.
+
+7. Conclusion
+
+This investigation provided practical experience in analyzing phishing infrastructure and identifying malicious website functionality.
+
+It improved my understanding of PHP-based information collection, IP geolocation tracking, cryptocurrency phishing techniques, and the importance of protecting sensitive authentication information.
+
+Lab: CyberDefenders – Phisher Grab
+Category: Phishing Analysis / Threat Investigation
+Focus: PHP Source-Code Analysis
